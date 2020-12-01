@@ -3,100 +3,132 @@
 @inject ProductServices service
 
 <div class="container">
+    <h2>Orgs</h2>
 
     <div class="row bg-light">
         <table class="table table-bordered">
             <thead class="thead-dark">
-                <tr>
-                    <th>Product Id</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Description</th>
-                    <th>Delete Product</th>
-                </tr>
+            <tr>
+                <th>Org Id</th>
+                <th>Name</th>
+                <th>Delete Org</th>
+            </tr>
             </thead>
             <tbody>
-                @if (Products.Any())
+            @if (Orgs.Any())
+            {
+                @foreach (var product in Orgs)
                 {
-                    @foreach (var product in Products)
-                    {
-                        <tr @onclick="(() => SetProductForUpdate(product))">
-                            <td>@product.Id</td>
-                            <td>@product.Name</td>
-                            <td>@product.Price</td>
-                            <td>@product.Quantity</td>
-                            <td>@product.Description</td>
-                            <td><button class="btn btn-danger" @onclick="(() => DeleteProduct(product))">Delete</button></td>
-                        </tr>
-                    }
+                    <tr @onclick="() => SetProductForUpdate(product)">
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => DeleteProduct(product)">Delete</button>
+                        </td>
+                    </tr>
                 }
-                else
-                {
-                    <tr><td colspan="6"><strong>No products available</strong></td></tr>
-                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <strong>No usrs available</strong>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
 
+    <h2>Users</h2>
+    <div class="row bg-light">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Org Id</th>
+                <th>Name</th>
+                <th>Orgs Quantity</th>
+                <th>Delete Org</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Users.Any())
+            {
+                @foreach (var user in Users)
+                {
+                    <tr @onclick="() => SetUserForUpdate(user)">
+                        <td>@user.Id</td>
+                        <td>@user.Name</td>
+                        <td>@user.Orgs.Count</td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <strong>No users available</strong>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+
     <div class="row m-5">
         <div class="col-5 bg-light m-2 justify-content-start">
 
-            <div class="p-3 mb-3 bg-primary text-white text-center">Add New Product</div>
+            <div class="p-3 mb-3 bg-primary text-white text-center">Add New Org</div>
 
-            <EditForm Model="@NewProduct">
+            <EditForm Model="@NewOrg">
                 <div class="form-group">
-                    <label for="name">Product Name</label>
-                    <input type="text" id="name" class="form-control" @bind-value="@NewProduct.Name" />
+                    <label for="name">Org Name</label>
+                    <input type="text" id="name" class="form-control" @bind-value="@NewOrg.Name"/>
                 </div>
 
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="text" id="price" class="form-control" @bind="@NewProduct.Price" />
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="text" id="quantity" class="form-control" @bind="@NewProduct.Quantity" />
-                </div>
-
-                <div class="form-group">
-                    <label for="Description">Description</label>
-                    <input type="text" id="Description" class="form-control" @bind="@NewProduct.Description" />
-                </div>
 
                 <div class="text-center p-3 mb-3">
-                    <button class="btn btn-info" @onclick="AddNewProduct"> Add Product</button>
+                    <button class="btn btn-info" @onclick="AddNewProduct"> Add Org</button>
                 </div>
             </EditForm>
         </div>
 
         <div class="col-5 bg-light m-2 justify-content-end">
-            <div class="p-3 mb-1 bg-primary text-white text-center">Update Product</div>
+            <div class="p-3 mb-1 bg-primary text-white text-center">Update Org</div>
 
-            <EditForm Model="@UpdateProduct">
+            <EditForm Model="@_updateOrg">
                 <div class="form-group">
-                    <label for="name">Product Name</label>
-                    <input type="text" id="name" class="form-control" @bind-value="@UpdateProduct.Name" />
+                    <label for="name">Org Name</label>
+                    <input type="text" id="name" class="form-control" @bind-value="@_updateOrg.Name"/>
+                </div>
+
+
+                <div class="text-center p-3 mb-3">
+                    <button class="btn btn-info" @onclick="UpdateProductData"> Update Org</button>
+                </div>
+            </EditForm>
+        </div>
+
+        <div class="col-5 bg-light m-2 justify-content-end">
+            <div class="p-3 mb-1 bg-primary text-white text-center">Add Org to User</div>
+
+            <EditForm Model="@_updateUser">
+                <div class="form-group">
+                    <label for="name">User Name</label>
+                    <input type="text" id="name" class="form-control" @bind-value="@_updateUser.Name"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="text" id="price" class="form-control" @bind="@UpdateProduct.Price" />
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="text" id="quantity" class="form-control" @bind="@UpdateProduct.Quantity" />
-                </div>
-
-                <div class="form-group">
-                    <label for="Description">Description</label>
-                    <input type="text" id="Description" class="form-control" @bind="@UpdateProduct.Description" />
+                    <label for="name">Org Name</label>
+                    <input type="text" id="orgid" class="form-control" @bind-value="@_updateOrg.Name"/>
                 </div>
 
                 <div class="text-center p-3 mb-3">
-                    <button class="btn btn-info" @onclick="UpdateProductData"> Update Product</button>
+                    <button class="btn btn-info" @onclick="AddUserOrgData"> Update Org</button>
                 </div>
             </EditForm>
         </div>
@@ -107,8 +139,8 @@
 
 
 @code {
-
-    List<Product> Products = new List<Product>();
+    List<Org> Orgs = new List<Org>();
+    List<User> Users = new List<User>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,34 +149,71 @@
 
     private async Task RefreshProducts()
     {
-        Products = await service.GetProductAsync();
+        Orgs = await service.GetOrgsAsync();
+        Users = await service.GetUsersAsync();
     }
 
 
-    public Product NewProduct { get; set; } = new Product();
+    public Org NewOrg { get; set; } = new Org();
+    public User NewUser { get; set; } = new User();
 
     private async Task AddNewProduct()
     {
-        await service.AddProductAsync(NewProduct);
-        NewProduct = new Product();
+        await service.AddOrgAsync(NewOrg);
+        NewOrg = new Org();
         await RefreshProducts();
     }
 
-    Product UpdateProduct = new Product();
-    private void SetProductForUpdate(Product product)
+    Org _updateOrg = new Org();
+
+    private void SetProductForUpdate(Org org)
     {
-        UpdateProduct = product;
+        _updateOrg = org;
     }
 
     private async Task UpdateProductData()
     {
-        await service.UpdateProductAsync(UpdateProduct);
+        await service.UpdateOrgAsync(_updateOrg);
         await RefreshProducts();
     }
 
-    private async Task DeleteProduct(Product product)
+    private async Task DeleteProduct(Org org)
     {
-        await service.DeleteProductAsync(product);
+        await service.DeleteOrgAsync(org);
         await RefreshProducts();
     }
+
+    // ------------------ Users ----------
+    private async Task AddNewUser()
+    {
+        await service.AddUserAsync(NewUser);
+        NewUser = new User();
+        await RefreshProducts();
+    }
+
+    User _updateUser = new User();
+
+    private void SetUserForUpdate(User org)
+    {
+        _updateUser = org;
+    }
+
+    private async Task UpdateUserData()
+    {
+        await service.UpdateUserAsync(_updateUser);
+        await RefreshProducts();
+    }
+
+    private async Task AddUserOrgData()
+    {
+        await service.UpdateUserOrgAsync(_updateUser, _updateOrg);
+        await RefreshProducts();
+    }
+
+    private async Task DeleteUser(User org)
+    {
+        await service.DeleteUserAsync(org);
+        await RefreshProducts();
+    }
+
 }

@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using blazorservercrudefsqlite.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using blazorservercrudefsqlite.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace blazorservercrudefsqlite
 {
@@ -29,11 +23,11 @@ namespace blazorservercrudefsqlite
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
 
             services.AddDbContext<ProductDbContext>(options =>
             {
-                options.UseSqlite("Data Source = Products.db");
+                options.UseSqlite("Data Source = Orgs.db");
+                ;
             });
 
             services.AddScoped<ProductServices>();

@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Development Projects\\technical-bundle-repo\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj": {}
+    "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj": {}
   },
   "projects": {
-    "D:\\Development Projects\\technical-bundle-repo\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj": {
+    "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Development Projects\\technical-bundle-repo\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
+        "projectUniqueName": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
         "projectName": "blazorservercrudefsqlite",
-        "projectPath": "D:\\Development Projects\\technical-bundle-repo\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
-        "packagesPath": "C:\\Users\\machine\\.nuget\\packages\\",
-        "outputPath": "D:\\Development Projects\\technical-bundle-repo\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\obj\\",
+        "projectPath": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
+        "packagesPath": "C:\\Users\\panda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\machine\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\panda\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -31,6 +30,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -42,16 +42,17 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[3.1.4, )"
+              "version": "[5.0.0-rc.2.20475.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.4, )"
+              "version": "[5.0.0-rc.2.20475.6, )"
             }
           },
           "imports": [
@@ -72,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

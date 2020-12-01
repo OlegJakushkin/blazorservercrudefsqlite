@@ -1,42 +1,85 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace blazorservercrudefsqlite.Data
 {
+
+    public class UserOrgMaps
+    {
+        public int OrgId { get; set; }
+        public Org Org { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
+    }
     public class ProductDbContext : DbContext
     {
         #region Contructor
+
         public ProductDbContext(DbContextOptions<ProductDbContext> options)
-                : base(options)
+            : base(options)
         {
             Database.EnsureCreated();
         }
-        #endregion
 
-        #region Public properties
-        public DbSet<Product> Product { get; set; }
         #endregion
 
         #region Overidden methods
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().HasData(GetProducts());
+            modelBuilder.Entity<Org>().HasData(GetProducts());
+            modelBuilder.Entity<User>()
+                .HasMany(user => user.Orgs)
+                .WithMany(org => org.Users)
+                .UsingEntity<UserOrgMaps>(
+                    x => x.HasOne<Org>().WithMany(),
+                    x => x.HasOne<User>().WithMany())
+                .HasKey(x => new { x.UserId, x.OrgId });
+            modelBuilder.Entity<User>().HasData(GetUsers());
+
             base.OnModelCreating(modelBuilder);
         }
+
+        #endregion
+
+        #region Public properties
+
+        public DbSet<Org> Orgs { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOrgMaps> UserOrgMaps { get; set; }
         #endregion
 
 
         #region Private methods
-        private List<Product> GetProducts()
+
+        private List<Org> GetProducts()
         {
-            return new List<Product>
+            return new List<Org>
             {
-                new Product { Id = 1001, Name = "Laptop", Price = 20.02, Quantity = 10, Description ="This is a best gaming laptop"},
-                new Product { Id = 1002, Name = "Microsoft Office", Price = 20.99, Quantity = 50, Description ="This is a Office Application"},
-                new Product { Id = 1003, Name = "Lazer Mouse", Price = 12.02, Quantity = 20, Description ="The mouse that works on all surface"},
-                new Product { Id = 1004, Name = "USB Storage", Price = 5.00, Quantity = 20, Description ="To store 256GB of data"}
+                new Org {Id = 1001, Name = "MS"},
+                new Org {Id = 1002, Name = "SPBU"},
+                new Org {Id = 1003, Name = "APPL"},
+                new Org {Id = 1004, Name = "GOOGL"}
             };
         }
+
+        private List<User> GetUsers()
+        {
+            var ul = new List<User>
+            {
+                new User {Id = 1001, Name = "Vasia"},
+                new User {Id = 1002, Name = "Dasha"},
+                new User {Id = 1003, Name = "Petia"},
+                new User {Id = 1004, Name = "Masha"}
+            };
+
+
+            //ul.First().Orgs.Add(new Org { Id = 1005, Name = "AMD" });
+
+            return ul;
+        }
+
         #endregion
     }
 }

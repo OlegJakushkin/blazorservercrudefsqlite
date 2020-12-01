@@ -1,93 +1,103 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace blazorservercrudefsqlite.Data
 {
     public class ProductServices
     {
-        #region Private members
-        private ProductDbContext dbContext;
-        #endregion
+        private readonly ProductDbContext dbContext;
 
-        #region Constructor
         public ProductServices(ProductDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        #endregion
 
-        #region Public methods
-        /// <summary>
-        /// This method returns the list of product
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<Product>> GetProductAsync()
+        //------------ Orgs ------------
+
+        public async Task<List<Org>> GetOrgsAsync()
         {
-            return await dbContext.Product.ToListAsync();
+            return await dbContext.Orgs.ToListAsync();
         }
 
-        /// <summary>
-        /// This method add a new product to the DbContext and saves it
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public async Task<Product> AddProductAsync(Product product)
+        public async Task<Org> AddOrgAsync(Org org)
         {
-            try
+            dbContext.Orgs.Add(org);
+            await dbContext.SaveChangesAsync();
+            return org;
+        }
+
+        public async Task<Org> UpdateOrgAsync(Org org)
+        {
+            var productExist = dbContext.Orgs.FirstOrDefault(p => p.Id == org.Id);
+            if (productExist != null)
             {
-                dbContext.Product.Add(product);
+                dbContext.Update(org);
                 await dbContext.SaveChangesAsync();
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            return product;
+
+            return org;
         }
 
-        /// <summary>
-        /// This method update and existing product and saves the changes
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public async Task<Product> UpdateProductAsync(Product product)
+        public async Task DeleteOrgAsync(Org org)
         {
-            try
-            {
-                var productExist = dbContext.Product.FirstOrDefault(p => p.Id == product.Id);
-                if (productExist != null)
-                {
-                    dbContext.Update(product);
-                    await dbContext.SaveChangesAsync();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return product;
+            dbContext.Orgs.Remove(org);
+            await dbContext.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// This method removes and existing product from the DbContext and saves it
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public async Task DeleteProductAsync(Product product)
+        //------------ Users ------------
+        public async Task<List<User>> GetUsersAsync()
         {
-            try
+            return await dbContext.Users.ToListAsync();
+        }
+
+        public async Task<User> AddUserAsync(User org)
+        {
+            dbContext.Users.Add(org);
+            await dbContext.SaveChangesAsync();
+            return org;
+        }
+
+        public async Task<User> UpdateUserAsync(User org)
+        {
+            var productExist = dbContext.Users.FirstOrDefault(p => p.Id == org.Id);
+            if (productExist != null)
             {
-                dbContext.Product.Remove(product);
+                dbContext.Update(org);
                 await dbContext.SaveChangesAsync();
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            return org;
         }
-        #endregion
+
+
+        public async Task<User> UpdateUserOrgAsync(User usr, Org org)
+        {
+            var userExist = dbContext
+                .Users
+                .Include(org1 => org1.Orgs)
+                .FirstOrDefault(p => p.Id == usr.Id);
+
+            var orgExist = dbContext
+                .Orgs
+                .Include(org1 => org1.Users)
+                .FirstOrDefault(p => p.Id == usr.Id);
+
+            if (userExist != null && orgExist != null)
+            {
+                usr.Orgs.Add(org);
+                dbContext.Update(usr);
+                await dbContext.SaveChangesAsync();
+            }
+
+            return usr;
+        }
+
+        public async Task DeleteUserAsync(User org)
+        {
+            dbContext.Users.Remove(org);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
