@@ -4,14 +4,6 @@ using Microsoft.EntityFrameworkCore;
 namespace blazorservercrudefsqlite.Data
 {
 
-    public class UserOrgMaps
-    {
-        public int OrgId { get; set; }
-        public Org Org { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
-    }
     public class ProductDbContext : DbContext
     {
         #region Contructor
@@ -29,13 +21,15 @@ namespace blazorservercrudefsqlite.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Org>().HasData(GetProducts());
-            modelBuilder.Entity<User>()
-                .HasMany(user => user.Orgs)
-                .WithMany(org => org.Users)
-                .UsingEntity<UserOrgMaps>(
-                    x => x.HasOne<Org>().WithMany(),
-                    x => x.HasOne<User>().WithMany())
-                .HasKey(x => new { x.UserId, x.OrgId });
+            modelBuilder.Entity<Relation>().HasKey(rt => new { rt.UserId, rt.OrgId });
+            modelBuilder.Entity<Relation>()
+                .HasOne(rt => rt.User)
+                .WithMany(r => r.Relations)
+                .HasForeignKey(rt => rt.OrgId).IsRequired();
+            modelBuilder.Entity<Relation>()
+                .HasOne(rt => rt.Org)
+                .WithMany(r => r.Relations)
+                .HasForeignKey(rt => rt.UserId).IsRequired();
             modelBuilder.Entity<User>().HasData(GetUsers());
 
             base.OnModelCreating(modelBuilder);
@@ -47,7 +41,7 @@ namespace blazorservercrudefsqlite.Data
 
         public DbSet<Org> Orgs { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserOrgMaps> UserOrgMaps { get; set; }
+        public DbSet<Relation> Relations { get; set; }
         #endregion
 
 

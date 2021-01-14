@@ -76,18 +76,23 @@ namespace blazorservercrudefsqlite.Data
         {
             var userExist = dbContext
                 .Users
-                .Include(org1 => org1.Orgs)
                 .FirstOrDefault(p => p.Id == usr.Id);
 
             var orgExist = dbContext
                 .Orgs
-                .Include(org1 => org1.Users)
                 .FirstOrDefault(p => p.Id == usr.Id);
 
             if (userExist != null && orgExist != null)
             {
-                usr.Orgs.Add(org);
-                dbContext.Update(usr);
+                var rel = new Relation()
+                {
+                    UserId = usr.Id,
+                    OrgId = org.Id,
+                    Org = org,
+                    User = usr
+
+                };
+                dbContext.Relations.Add(rel);
                 await dbContext.SaveChangesAsync();
             }
 
@@ -98,6 +103,11 @@ namespace blazorservercrudefsqlite.Data
         {
             dbContext.Users.Remove(org);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Relation>> GetRelationsAsync()
+        {
+            return await dbContext.Relations.ToListAsync();
         }
     }
 }

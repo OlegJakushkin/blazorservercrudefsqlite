@@ -3,28 +3,24 @@
 @inject ProductServices service
 
 <div class="container">
-    <h2>Orgs</h2>
+    <h2>Relations</h2>
 
     <div class="row bg-light">
         <table class="table table-bordered">
             <thead class="thead-dark">
             <tr>
                 <th>Org Id</th>
-                <th>Name</th>
-                <th>Delete Org</th>
+                <th>User Id</th>
             </tr>
             </thead>
             <tbody>
-            @if (Orgs.Any())
+            @if (Relations.Any())
             {
-                @foreach (var product in Orgs)
+                @foreach (var product in Relations)
                 {
-                    <tr @onclick="() => SetProductForUpdate(product)">
-                        <td>@product.Id</td>
-                        <td>@product.Name</td>
-                        <td>
-                            <button class="btn btn-danger" @onclick="() => DeleteProduct(product)">Delete</button>
-                        </td>
+                    <tr>
+                        <td>@product.OrgId</td>
+                        <td>@product.UserId</td>
                     </tr>
                 }
             }
@@ -32,10 +28,47 @@
             {
                 <tr>
                     <td colspan="6">
-                        <strong>No usrs available</strong>
+                        <strong>No Relations available</strong>
                     </td>
                 </tr>
             }
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Orgs</h2>
+
+    <div class="row bg-light">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Org Id</th>
+                    <th>Name</th>
+                    <th>Delete Org</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Orgs.Any())
+                {
+                    @foreach (var product in Orgs)
+                    {
+                        <tr @onclick="() => SetProductForUpdate(product)">
+                            <td>@product.Id</td>
+                            <td>@product.Name</td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="() => DeleteProduct(product)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <strong>No usrs available</strong>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -44,36 +77,43 @@
     <div class="row bg-light">
         <table class="table table-bordered">
             <thead class="thead-dark">
-            <tr>
-                <th>Org Id</th>
-                <th>Name</th>
-                <th>Orgs Quantity</th>
-                <th>Delete Org</th>
-            </tr>
+                <tr>
+                    <th>Org Id</th>
+                    <th>Name</th>
+                    <th>Orgs Quantity</th>
+                    <th>Delete Org</th>
+                </tr>
             </thead>
             <tbody>
-            @if (Users.Any())
-            {
-                @foreach (var user in Users)
+                @if (Users.Any())
                 {
-                    <tr @onclick="() => SetUserForUpdate(user)">
-                        <td>@user.Id</td>
-                        <td>@user.Name</td>
-                        <td>@user.Orgs.Count</td>
-                        <td>
-                            <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                    @foreach (var user in Users)
+                    {
+                        <tr @onclick="() => SetUserForUpdate(user)">
+                            <td>@user.Id</td>
+                            <td>@user.Name</td>
+                            @if (user.Relations != null)
+                            {
+                                <td>@user.Relations.Count</td>
+                            }
+                            else
+                            {
+                                <td>Null</td>
+                            }
+                            <td>
+                                <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <strong>No users available</strong>
                         </td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6">
-                        <strong>No users available</strong>
-                    </td>
-                </tr>
-            }
             </tbody>
         </table>
     </div>
@@ -87,7 +127,7 @@
             <EditForm Model="@NewOrg">
                 <div class="form-group">
                     <label for="name">Org Name</label>
-                    <input type="text" id="name" class="form-control" @bind-value="@NewOrg.Name"/>
+                    <input type="text" id="name" class="form-control" @bind-value="@NewOrg.Name" />
                 </div>
 
 
@@ -103,7 +143,7 @@
             <EditForm Model="@_updateOrg">
                 <div class="form-group">
                     <label for="name">Org Name</label>
-                    <input type="text" id="name" class="form-control" @bind-value="@_updateOrg.Name"/>
+                    <input type="text" id="name" class="form-control" @bind-value="@_updateOrg.Name" />
                 </div>
 
 
@@ -119,12 +159,12 @@
             <EditForm Model="@_updateUser">
                 <div class="form-group">
                     <label for="name">User Name</label>
-                    <input type="text" id="name" class="form-control" @bind-value="@_updateUser.Name"/>
+                    <input type="text" id="name" class="form-control" @bind-value="@_updateUser.Name" />
                 </div>
 
                 <div class="form-group">
                     <label for="name">Org Name</label>
-                    <input type="text" id="orgid" class="form-control" @bind-value="@_updateOrg.Name"/>
+                    <input type="text" id="orgid" class="form-control" @bind-value="@_updateOrg.Name" />
                 </div>
 
                 <div class="text-center p-3 mb-3">
@@ -141,6 +181,7 @@
 @code {
     List<Org> Orgs = new List<Org>();
     List<User> Users = new List<User>();
+    List<Relation> Relations = new List<Relation>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -151,6 +192,7 @@
     {
         Orgs = await service.GetOrgsAsync();
         Users = await service.GetUsersAsync();
+        Relations = await service.GetRelationsAsync();
     }
 
 

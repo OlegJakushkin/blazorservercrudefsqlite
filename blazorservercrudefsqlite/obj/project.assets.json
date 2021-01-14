@@ -1186,11 +1186,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
+      "projectUniqueName": "C:\\Users\\panda\\Documents\\GitHub\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
       "projectName": "blazorservercrudefsqlite",
-      "projectPath": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
+      "projectPath": "C:\\Users\\panda\\Documents\\GitHub\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\blazorservercrudefsqlite.csproj",
       "packagesPath": "C:\\Users\\panda\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\panda\\Downloads\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite-master\\blazorservercrudefsqlite\\obj\\",
+      "outputPath": "C:\\Users\\panda\\Documents\\GitHub\\blazorservercrudefsqlite\\blazorservercrudefsqlite\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"

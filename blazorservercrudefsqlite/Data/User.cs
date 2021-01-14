@@ -7,6 +7,7 @@ namespace blazorservercrudefsqlite.Data
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<Org> Orgs { get; } = new List<Org>();
+        public ICollection<Relation> Relations { get; set; }
+
     }
 }
