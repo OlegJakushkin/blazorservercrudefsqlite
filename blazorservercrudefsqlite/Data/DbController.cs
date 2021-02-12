@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace blazorservercrudefsqlite.Data
 {
-    public class ProductServices
+    public class DbController
     {
-        private readonly ProductDbContext dbContext;
+        private readonly DbContext dbContext;
 
-        public ProductServices(ProductDbContext dbContext)
+        public DbController(DbContext dbContext)
         {
             this.dbContext = dbContext;
         }

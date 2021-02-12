@@ -176,7 +176,7 @@ using blazorservercrudefsqlite.Data;
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ProductServices service { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private DbController service { get; set; }
     }
 }
 #pragma warning restore 1591

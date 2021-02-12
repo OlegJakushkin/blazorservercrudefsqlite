@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DbContext = blazorservercrudefsqlite.Data.DbContext;
 
 namespace blazorservercrudefsqlite
 {
@@ -24,13 +25,13 @@ namespace blazorservercrudefsqlite
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddDbContext<ProductDbContext>(options =>
+            services.AddDbContext<DbContext>(options =>
             {
                 options.UseSqlite("Data Source = Orgs.db");
                 ;
             });
 
-            services.AddScoped<ProductServices>();
+            services.AddScoped<DbController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

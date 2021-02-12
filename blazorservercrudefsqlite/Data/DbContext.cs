@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 namespace blazorservercrudefsqlite.Data
 {
 
-    public class ProductDbContext : DbContext
+    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         #region Contructor
 
-        public ProductDbContext(DbContextOptions<ProductDbContext> options)
+        public DbContext(DbContextOptions<DbContext> options)
             : base(options)
         {
             Database.EnsureCreated();
@@ -20,7 +20,9 @@ namespace blazorservercrudefsqlite.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Org>().HasData(GetProducts());
+            modelBuilder.Entity<Org>().HasData(GetOrgs());
+            modelBuilder.Entity<User>().HasData(GetUsers());
+
             modelBuilder.Entity<Relation>().HasKey(rt => new { rt.UserId, rt.OrgId });
             modelBuilder.Entity<Relation>()
                 .HasOne(rt => rt.User)
@@ -30,7 +32,7 @@ namespace blazorservercrudefsqlite.Data
                 .HasOne(rt => rt.Org)
                 .WithMany(r => r.Relations)
                 .HasForeignKey(rt => rt.UserId).IsRequired();
-            modelBuilder.Entity<User>().HasData(GetUsers());
+
 
             base.OnModelCreating(modelBuilder);
         }
@@ -47,7 +49,7 @@ namespace blazorservercrudefsqlite.Data
 
         #region Private methods
 
-        private List<Org> GetProducts()
+        private List<Org> GetOrgs()
         {
             return new List<Org>
             {
