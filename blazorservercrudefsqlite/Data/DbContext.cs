@@ -33,7 +33,6 @@ namespace blazorservercrudefsqlite.Data
                 .WithMany(r => r.Relations)
                 .HasForeignKey(rt => rt.UserId).IsRequired();
 
-
             base.OnModelCreating(modelBuilder);
         }
 

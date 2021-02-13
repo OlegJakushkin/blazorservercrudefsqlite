@@ -100,7 +100,6 @@ using blazorservercrudefsqlite.Data;
         currentCount++;
     }
 
-
 #line default
 #line hidden
 #nullable disable
